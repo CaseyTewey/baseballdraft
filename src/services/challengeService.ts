@@ -1,19 +1,41 @@
 import { supabase } from '../lib/supabase';
-import { DailyChallenge } from '../types/Challenge';
+import { Challenge } from '../types/Challenge';
 
 export const challengeService = {
-  async getTodayChallenge(): Promise<DailyChallenge | null> {
-    const today = new Date().toISOString().split('T')[0];
-    console.log('Fetching challenge for date:', today);
+  async getChallenges(): Promise<Challenge[]> {
+    console.log('Fetching all challenges');
     
     const { data, error } = await supabase
-      .from('daily_challenges')
+      .from('challenges')
       .select('*')
-      .eq('challenge_date', today)
-      .maybeSingle();
+      .order('challenge_date', { ascending: true });
+
+    if (error) {
+      console.error('Error fetching challenges:', error);
+      console.error('Error details:', error.details);
+      console.error('Error message:', error.message);
+      console.error('Error hint:', error.hint);
+      throw error;
+    }
+
+    console.log('Challenge data:', data);
+    return data || [];
+  },
+
+  async getChallenge(id: string): Promise<Challenge | null> {
+    console.log('Fetching challenge:', id);
+    
+    const { data, error } = await supabase
+      .from('challenges')
+      .select('*')
+      .eq('id', id)
+      .single();
 
     if (error) {
       console.error('Error fetching challenge:', error);
+      console.error('Error details:', error.details);
+      console.error('Error message:', error.message);
+      console.error('Error hint:', error.hint);
       throw error;
     }
 

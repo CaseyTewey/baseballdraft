@@ -1,27 +1,27 @@
 import { useState, useEffect } from 'react';
-import { DailyChallenge } from '../types/Challenge';
+import { Challenge } from '../types/Challenge';
 import { challengeService } from '../services/challengeService';
 
 export function useChallenge() {
-  const [challenge, setChallenge] = useState<DailyChallenge | null>(null);
+  const [challenges, setChallenges] = useState<Challenge[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadChallenge = async () => {
+    const loadChallenges = async () => {
       try {
         setIsLoading(true);
-        const data = await challengeService.getTodayChallenge();
-        setChallenge(data);
+        const data = await challengeService.getChallenges();
+        setChallenges(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load challenge');
+        setError(err instanceof Error ? err.message : 'Failed to load challenges');
       } finally {
         setIsLoading(false);
       }
     };
 
-    loadChallenge();
+    loadChallenges();
   }, []);
 
-  return { challenge, isLoading, error };
+  return { challenges, isLoading, error };
 }

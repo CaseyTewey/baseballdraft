@@ -8,8 +8,8 @@ import { readFileSync } from 'fs';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-// Load environment variables from the root .env file
-const envPath = join(__dirname, '../../.env');
+// Load environment variables from the root .env.development file
+const envPath = join(__dirname, '../../.env.development');
 const envConfig = dotenv.parse(readFileSync(envPath));
 
 // Set environment variables
@@ -51,13 +51,16 @@ async function createTodayChallenge() {
     // First, check if a challenge already exists for today
     console.log('Checking for existing challenge...');
     const { data: existingChallenge, error: checkError } = await supabase
-      .from('daily_challenges')
+      .from('challenges')
       .select('id')
       .eq('challenge_date', today)
       .maybeSingle();
 
     if (checkError) {
       console.error('Error checking existing challenge:', checkError);
+      console.error('Error details:', checkError.details);
+      console.error('Error message:', checkError.message);
+      console.error('Error hint:', checkError.hint);
       process.exit(1);
     }
 
@@ -71,7 +74,7 @@ async function createTodayChallenge() {
 
     // Create new challenge
     const { data: newChallenge, error: insertError } = await supabase
-      .from('daily_challenges')
+      .from('challenges')
       .insert([{
         challenge_date: today,
         rule: "Pick players with the most home runs!",
@@ -84,6 +87,7 @@ async function createTodayChallenge() {
     if (insertError) {
       console.error('Error creating challenge:', insertError);
       console.error('Error details:', insertError.details);
+      console.error('Error message:', insertError.message);
       console.error('Error hint:', insertError.hint);
       process.exit(1);
     }

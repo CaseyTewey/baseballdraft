@@ -1,15 +1,15 @@
 import React from 'react';
-import { DailyChallenge } from '../../types/Challenge';
+import { Challenge } from '../../types/Challenge';
 
 interface ChallengeHeaderProps {
-  challenge: DailyChallenge;
+  challenge: Challenge;
 }
 
 export function ChallengeHeader({ challenge }: ChallengeHeaderProps) {
   return (
     <div className="mb-6">
       <h1 className="text-2xl font-bold text-gray-900 mb-2">
-        Today's Challenge
+        Baseball Challenge
       </h1>
       <p className="text-lg text-gray-700">
         {challenge.rule} — Pick {challenge.pick_limit} players!

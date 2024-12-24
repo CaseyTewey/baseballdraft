@@ -1,6 +1,7 @@
-export interface DailyChallenge {
+export interface Challenge {
   id: string;
-  challenge_date: string;
+  title: string;
+  challenge_date?: string;
   rule: string;
   pick_limit: number;
   players_pool: any[] | null;

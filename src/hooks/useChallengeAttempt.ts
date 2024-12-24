@@ -1,35 +1,51 @@
 import { useState, useEffect } from 'react';
 import { ChallengeAttempt } from '../types/ChallengeAttempt';
-import { challengeAttemptService } from '../services/challengeAttemptService';
+import { supabase } from '../lib/supabase';
 
 export function useChallengeAttempt(userId: string | undefined, challengeId: string | undefined) {
   const [attempt, setAttempt] = useState<ChallengeAttempt | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const fetchAttempt = async () => {
     if (!userId || !challengeId) {
+      setAttempt(null);
       setIsLoading(false);
       return;
     }
 
-    const loadAttempt = async () => {
-      try {
-        setIsLoading(true);
-        const data = await challengeAttemptService.getAttemptByUserAndChallenge(
-          userId,
-          challengeId
-        );
-        setAttempt(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load attempt');
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    try {
+      setIsLoading(true);
+      setError(null);
 
-    loadAttempt();
+      const { data, error: fetchError } = await supabase
+        .from('challenge_attempts')
+        .select('*')
+        .eq('user_id', userId)
+        .eq('challenge_id', challengeId)
+        .maybeSingle();
+
+      if (fetchError && fetchError.code !== 'PGRST116') {
+        throw fetchError;
+      }
+
+      setAttempt(data || null);
+    } catch (err) {
+      console.error('Error fetching attempt:', err);
+      setError('Failed to load attempt');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAttempt();
   }, [userId, challengeId]);
 
-  return { attempt, isLoading, error };
+  return {
+    attempt,
+    isLoading,
+    error,
+    mutate: fetchAttempt
+  };
 }

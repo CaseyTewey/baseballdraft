@@ -8,7 +8,9 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "create-challenge": "tsx src/scripts/createChallenge.ts"
+    "create-challenge": "tsx src/scripts/createChallenge.ts",
+    "publish-challenges": "tsx src/scripts/publishChallenge.ts",
+    "clear-challenges": "tsx src/scripts/clearChallenges.ts"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.7",

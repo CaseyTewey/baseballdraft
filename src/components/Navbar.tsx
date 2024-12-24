@@ -29,10 +29,12 @@ export function Navbar() {
             {user ? (
               <>
                 <Link
-                  to="/dashboard"
-                  className="text-white hover:text-blue-100 transition-colors"
+                  to="/challenge"
+                  className={`text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium ${
+                    location.pathname === '/challenge' ? 'bg-gray-900 text-white' : ''
+                  }`}
                 >
-                  Today's Challenge
+                  Draft Challenge
                 </Link>
                 <Link
                   to="/profile"
