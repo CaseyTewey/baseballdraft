@@ -1,58 +1,50 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Trophy } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 
 export function Navbar() {
   const { user, signOut } = useAuth();
-  const navigate = useNavigate();
-
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      navigate('/');
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
 
   return (
-    <nav className="bg-blue-600 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center space-x-2">
-            <Trophy className="h-8 w-8" />
-            <span className="font-bold text-xl">Draftle</span>
-          </Link>
-          
-          <div className="flex items-center space-x-4">
+    <nav className="bg-white shadow-md">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex justify-between h-16">
+          <div className="flex">
+            <Link
+              to="/"
+              className="flex items-center px-2 py-2 text-gray-700 hover:text-gray-900"
+            >
+              <span className="text-xl font-bold">Baseball Draft</span>
+            </Link>
+            {user && (
+              <Link
+                to="/"
+                className="flex items-center px-3 py-2 ml-4 text-gray-700 hover:text-gray-900"
+              >
+                Draft Challenge
+              </Link>
+            )}
+          </div>
+          <div className="flex items-center">
             {user ? (
-              <>
-                <Link
-                  to="/challenge"
-                  className={`text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium ${
-                    location.pathname === '/challenge' ? 'bg-gray-900 text-white' : ''
-                  }`}
-                >
-                  Draft Challenge
-                </Link>
+              <div className="flex items-center space-x-4">
                 <Link
                   to="/profile"
-                  className="text-white hover:text-blue-100 transition-colors"
+                  className="text-gray-700 hover:text-gray-900"
                 >
                   Profile
                 </Link>
                 <button
-                  onClick={handleSignOut}
-                  className="bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md transition-colors"
+                  onClick={signOut}
+                  className="text-gray-700 hover:text-gray-900"
                 >
                   Sign Out
                 </button>
-              </>
+              </div>
             ) : (
               <Link
                 to="/auth"
-                className="bg-blue-500 hover:bg-blue-400 px-4 py-2 rounded-md transition-colors"
+                className="text-gray-700 hover:text-gray-900"
               >
                 Sign In
               </Link>

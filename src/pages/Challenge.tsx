@@ -6,6 +6,7 @@ import { useChallengeAttempt } from '../hooks/useChallengeAttempt';
 import { ChallengeHeader } from '../components/challenge/ChallengeHeader';
 import { ExistingAttempt } from '../components/challenge/ExistingAttempt';
 import { NewAttempt } from '../components/challenge/NewAttempt';
+import { ProfileStats } from '../components/profile/ProfileStats';
 
 export function Challenge() {
   const { user } = useAuth();
@@ -77,7 +78,8 @@ export function Challenge() {
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-gray-50 p-6">
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto space-y-6">
+        <ProfileStats userId={user.id} />
         <div className="bg-white rounded-lg shadow-md p-6">
           <div className="text-sm text-gray-500 mb-4">
             Challenge {currentChallengeIndex + 1} of {challenges.length}
