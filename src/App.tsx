@@ -7,6 +7,7 @@ import { Auth } from './pages/Auth';
 import { Dashboard } from './pages/Dashboard';
 import { Profile } from './pages/Profile';
 import { Challenge } from './pages/Challenge';
+import { Leaderboard } from './pages/Leaderboard';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path="/dashboard" element={<Challenge />} />
             <Route path="/challenge" element={<Challenge />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
           </Routes>
         </div>
       </AuthProvider>

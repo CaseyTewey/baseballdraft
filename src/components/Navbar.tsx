@@ -17,12 +17,20 @@ export function Navbar() {
               <span className="text-xl font-bold">Baseball Draft</span>
             </Link>
             {user && (
-              <Link
-                to="/"
-                className="flex items-center px-3 py-2 ml-4 text-gray-700 hover:text-gray-900"
-              >
-                Draft Challenge
-              </Link>
+              <>
+                <Link
+                  to="/"
+                  className="flex items-center px-3 py-2 ml-4 text-gray-700 hover:text-gray-900"
+                >
+                  Draft Challenge
+                </Link>
+                <Link
+                  to="/leaderboard"
+                  className="flex items-center px-3 py-2 ml-4 text-gray-700 hover:text-gray-900"
+                >
+                  Leaderboard
+                </Link>
+              </>
             )}
           </div>
           <div className="flex items-center">
